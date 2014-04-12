@@ -1,6 +1,9 @@
 10 i defglobal
 
-{
-	$i print
+(
+	$i ( i is ) concat print
+
+	( ( i is above 5! ) print ) ( 5 $i > ) if
+
 	1 $i - i defglobal
-} { $i 0 != } while
+) ( $i 0 != ) while

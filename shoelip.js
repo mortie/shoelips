@@ -39,6 +39,18 @@ function evaluate(str, preStack) {
 		"!=": function() {
 			stack.push((stack.pop()!=stack.pop())?true:false);
 		},
+		">": function() {
+			stack.push((stack.pop()>stack.pop())?true:false);
+		},
+		"<": function() {
+			stack.push((stack.pop()<stack.pop())?true:false);
+		},
+		">=": function() {
+			stack.push((stack.pop()>=stack.pop())?true:false);
+		},
+		"<=": function() {
+			stack.push((stack.pop()<=stack.pop())?true:false);
+		},
 
 		"defglobal": function() {
 			var key = stack.pop();
@@ -52,13 +64,16 @@ function evaluate(str, preStack) {
 		"print": function() {
 			console.log(stack.pop());
 		},
+		"concat": function() {
+			stack.push(stack.pop()+" ".concat(stack.pop()));
+		},
 
 		"exec": function() {
 			var args = stack.pop();
 			var exp = stack.pop();
 
 			var ret = (evaluate(exp, evaluate(args)));
-			;var i;
+			var i;
 
 			for (i=0; i<ret.length; ++i) {
 				stack.push(ret[i]);
@@ -91,7 +106,7 @@ function evaluate(str, preStack) {
 			var condResult = evaluate(condition);
 			var i;
 
-			if (conndResult[condResult.length-1] === true) {
+			if (condResult[condResult.length-1] === true) {
 				expResult = evaluate(expression);
 
 				for (i=0; i<expResult.length; ++i) {
@@ -100,7 +115,7 @@ function evaluate(str, preStack) {
 			}
 		},
 
-		"{": function() {
+		"(": function() {
 			var result = "";
 			var depth = 0;
 			var i;
@@ -108,9 +123,9 @@ function evaluate(str, preStack) {
 			for (i=tokenIndex+1; i<tokens.length; ++i) {
 				token = tokens[i];
 
-				if (token == "{") {
+				if (token == "(") {
 					++depth;
-				} else if (token == "}") {
+				} else if (token == ")") {
 					if (depth <= 0) {
 						break;
 					} else {
