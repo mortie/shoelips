@@ -64,6 +64,7 @@ function evaluate(str, preStack) {
 				stack.push(ret[i]);
 			}
 		},
+
 		"while": function() {
 			var condition = stack.pop();
 			var expression = stack.pop();
@@ -81,6 +82,20 @@ function evaluate(str, preStack) {
 					}
 				} else {
 					return;
+				}
+			}
+		},
+		"if": function() {
+			var condition = stack.pop();
+			var expression = stack.pop();
+			var condResult = evaluate(condition);
+			var i;
+
+			if (conndResult[condResult.length-1] === true) {
+				expResult = evaluate(expression);
+
+				for (i=0; i<expResult.length; ++i) {
+					stack.push(expResult[i]);
 				}
 			}
 		},
