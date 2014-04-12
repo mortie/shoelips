@@ -118,9 +118,7 @@ function evaluate(str, preStack) {
 	for (tokenIndex=0; tokenIndex<tokens.length; ++tokenIndex) {
 		var token = tokens[tokenIndex];
 
-		if (token[0] == "/") {
-			stack.push(token.slice(1));
-		} else if (token[0] == "\\") {
+		if (token[0] == "$") {
 			var vName = token.slice(1);
 			var v = getVar(vName, localVars);
 			if (v !== undefined) {
@@ -134,7 +132,7 @@ function evaluate(str, preStack) {
 			if (operators[token] !== undefined) {
 				operators[token]();
 			} else {
-				error("Unexpected token: "+token);
+				stack.push(token);
 			}
 		}
 	}
