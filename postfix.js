@@ -1,3 +1,5 @@
+var fs = require("fs");
+
 function evaluate(str) {
 	var operators = {
 		"+": function() {
@@ -76,5 +78,16 @@ function evaluate(str) {
 	return stack;
 }
 
-console.log(evaluate("{ 100 10 * } exec"));
-
+function() {
+	var file = process.arguments[2];
+	if (file) {
+		fs.readFile(file, "utf8", function(err, data) {
+			console.log(evaluate(data));
+			process.kill();
+		});
+	} else {
+		process.stdin.on('data', function (data) {
+			console.log(evaluate(data));
+		});
+	}
+}
