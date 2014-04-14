@@ -36,11 +36,11 @@ These are operations which control the flow of the program. They all involve "bl
 
 ### Misc
 
-**def**: Expects the first value on the stack to be a string, and the second to be any value. Defines a new variable with the name being the string in the first value on the stack, and the value being the second value on the stack. The variable is accessible only in its current expression and all expression it contains.
-**set**: Much like def, except it's used to modify existing variables, not make new ones.
-**print**: Print out the first value on the stack.
-**concat**: Concatinate the two first values on the stack, then put the result on the stack.
-**void**: Delete the first value on the stack without returning anything
+* **def**: Expects the first value on the stack to be a string, and the second to be any value. Defines a new variable with the name being the string in the first value on the stack, and the value being the second value on the stack. The variable is accessible only in its current expression and all expression it contains.
+* **set**: Much like def, except it's used to modify existing variables, not make new ones.
+* **print**: Print out the first value on the stack.
+* **concat**: Concatinate the two first values on the stack, then put the result on the stack.
+* **void**: Delete the first value on the stack without returning anything
 
 Examples
 --------
