@@ -43,7 +43,6 @@ Examples
 --------
 
 ### def
----
 
 	10 foo def
 
