@@ -1,35 +1,34 @@
+#!/usr/bin/env node
 var fs = require("fs");
 
-function error(str) {
-	console.log(str);
+function error(str, token) {
+	console.log(str+" at token "+(1+token));
 	process.exit();
 }
 
-function getVar(v, loc) {
-	if (loc[v]) {
+function getVar(v, loc, scope) {
+	if (loc[v] !== undefined) {
 		return loc[v];
 	} else {
-		return globalVars[v];
+		return scope[v];
 	}
 }
 
-var globalVars = [];
-
-function evaluate(str, preStack) {
+function evaluate(str, preStack, preVars) {
 	var operators = {
-		"+": function() {
+		"add": function() {
 			stack.push(stack.pop()+stack.pop());
 		},
-		"-": function() {
+		"sub": function() {
 			stack.push(stack.pop()-stack.pop());
 		},
-		"*": function() {
+		"multi": function() {
 			stack.push(stack.pop()*stack.pop());
 		},
-		"/": function() {
+		"div": function() {
 			stack.push(stack.pop()/stack.pop());
 		},
-		"%": function() {
+		"mod": function() {
 			stack.push(stack.pop()%stack.pop());
 		},
 
@@ -52,13 +51,20 @@ function evaluate(str, preStack) {
 			stack.push((stack.pop()<=stack.pop())?true:false);
 		},
 
-		"defglobal": function() {
-			var key = stack.pop();
-			var val = stack.pop();
-			globalVars[key] = val;
-		},
 		"def": function() {
 			localVars[stack.pop()] = stack.pop();
+		},
+		"set": function() {
+			var vName = stack.pop();
+			var val = stack.pop();
+
+			if (localVars[vName] !== undefined) {
+				localVars[vName] = val;
+			} else if (scopeVars[vName] !== undefined) {
+				scopeVars[vName] = val;
+			} else {
+				error("Undefined variable: "+vName, tokenIndex);
+			}
 		},
 
 		"print": function() {
@@ -72,7 +78,7 @@ function evaluate(str, preStack) {
 			var args = stack.pop();
 			var exp = stack.pop();
 
-			var ret = (evaluate(exp, evaluate(args)));
+			var ret = (evaluate(exp, evaluate(args), localVars));
 			var i;
 
 			for (i=0; i<ret.length; ++i) {
@@ -88,9 +94,9 @@ function evaluate(str, preStack) {
 			var i;
 
 			while (true) {
-				condResult = evaluate(condition);
+				condResult = evaluate(condition, [], localVars);
 				if (condResult[condResult.length-1] === true) {
-					expResult = evaluate(expression);
+					expResult = evaluate(expression, [], localVars);
 
 					for (i=0; i<expResult.length; ++i) {
 						stack.push(expResult[i]);
@@ -103,11 +109,11 @@ function evaluate(str, preStack) {
 		"if": function() {
 			var condition = stack.pop();
 			var expression = stack.pop();
-			var condResult = evaluate(condition);
+			var condResult = evaluate(condition, [], localVars);
 			var i;
 
 			if (condResult[condResult.length-1] === true) {
-				expResult = evaluate(expression);
+				expResult = evaluate(expression, [], localVars);
 
 				for (i=0; i<expResult.length; ++i) {
 					stack.push(expResult[i]);
@@ -143,6 +149,7 @@ function evaluate(str, preStack) {
 	var stack = preStack || [];
 	var tokens = str.split(/\s+/);
 	var localVars = [];
+	var scopeVars = preVars || [];
 	var tokenIndex;
 
 	for (tokenIndex=0; tokenIndex<tokens.length; ++tokenIndex) {
@@ -150,19 +157,19 @@ function evaluate(str, preStack) {
 
 		if (token[0] == "$") {
 			var vName = token.slice(1);
-			var v = getVar(vName, localVars);
-			if (v !== undefined) {
-				stack.push(v);
+			var v = getVar(vName, localVars, scopeVars);
+			if (v === undefined) {
+				error("Undefined variable: "+vName, tokenIndex);
 			} else {
-				error("Undefined variable: "+vName);
+				stack.push(v);
 			}
 		} else if (token.match(/[0-9\.]/)) {
 			stack.push(parseFloat(token));
 		} else if (token) {
-			if (operators[token] !== undefined) {
-				operators[token]();
-			} else {
+			if (operators[token] === undefined) {
 				stack.push(token);
+			} else {
+				operators[token]();
 			}
 		}
 	}

@@ -1,9 +1,10 @@
-10 i defglobal
-
+10 i def
 (
-	$i ( i is ) concat print
+	20 i def
+	1 $i add
+	i set
+	$i print
 
-	( ( i is above 5! ) print ) ( 5 $i > ) if
+) ( ) exec
 
-	1 $i - i defglobal
-) ( $i 0 != ) while
+$i print
