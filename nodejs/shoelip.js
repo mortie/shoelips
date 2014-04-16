@@ -24,6 +24,10 @@ function pop(stack) {
 }
 
 var platform = {
+	"readline": function() {
+		return "";
+		console.log("Warning: readline isn't supported in node.js yet.");
+	}
 	"readfile": function(name) {
 		return fs.readFileSync(name, "utf-8");
 	},
@@ -88,6 +92,12 @@ function evaluate(str, preStack, preVars) {
 			}
 		},
 
+		"print": function() {
+			platform.print(pop(stack));
+		},
+		"readline": function() {
+			stack.push(platform.readline());
+		},
 		"readfile": function() {
 			stack.push(platform.readfile(pop(stack)));
 		},
@@ -95,11 +105,17 @@ function evaluate(str, preStack, preVars) {
 			pratform.writefile(pop(stack), pop(stack));
 		},
 
-		"print": function() {
-			platform.print(pop(stack));
-		},
 		"concat": function() {
 			stack.push(pop(stack)+" ".concat(pop(stack)));
+		},
+		"void": function() {
+			pop(stack);
+		},
+		"tostring": function() {
+			stack.push(pop(stack).toString());
+		},
+		"tonumber": function() {
+			stack.push(pop(parseFloat(stack)));
 		},
 
 		"exec": function() {

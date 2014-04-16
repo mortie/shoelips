@@ -1,9 +1,5 @@
-#!/usr/bin/env node
-var fs = require("fs");
-
 function error(str, token) {
 	console.log("Error: "+str);
-	process.exit();
 }
 
 function getVar(v, loc, scope) {
@@ -24,14 +20,17 @@ function pop(stack) {
 }
 
 var platform = {
+	"readline": function() {
+		return prompt("Input:");
+	},
 	"readfile": function(name) {
-		return fs.readFileSync(name, "utf-8");
+		return "";
 	},
 	"writeFile": function(name, data) {
 		fs.writeFileSync(name, data, "utf-8");
 	},
 	"print": function(msg) {
-		console.log(msg);
+		document.getElementById("output").value += msg+"\r\n";
 	}
 }
 
@@ -88,6 +87,12 @@ function evaluate(str, preStack, preVars) {
 			}
 		},
 
+		"print": function() {
+			platform.print(pop(stack));
+		},
+		"readline": function() {
+			stack.push(platform.readline());
+		},
 		"readfile": function() {
 			stack.push(platform.readfile(pop(stack)));
 		},
@@ -95,11 +100,17 @@ function evaluate(str, preStack, preVars) {
 			pratform.writefile(pop(stack), pop(stack));
 		},
 
-		"print": function() {
-			platform.print(pop(stack));
-		},
 		"concat": function() {
 			stack.push(pop(stack)+" ".concat(pop(stack)));
+		},
+		"void": function() {
+			pop(stack);
+		},
+		"tostring": function() {
+			stack.push(pop(stack).toString());
+		},
+		"tonumber": function() {
+			stack.push(parseFloat(pop(stack)));
 		},
 
 		"exec": function() {
@@ -109,8 +120,10 @@ function evaluate(str, preStack, preVars) {
 			var ret = evaluate(exp, evaluate(args), localVars)[0];
 			var i;
 
-			for (i=0; i<ret.length; ++i) {
-				stack.push(ret[i]);
+			if (ret !== undefined) {
+				for (i=0; i<ret.length; ++i) {
+					stack.push(ret[i]);
+				}
 			}
 		},
 
@@ -204,15 +217,3 @@ function evaluate(str, preStack, preVars) {
 
 	return stack;
 }
-
-(function() {
-	var file = process.argv[2];
-	if (file) {
-		fs.readFile(file, "utf8", function(err, data) {
-			console.log(evaluate(data));
-			//process.kill();
-		});
-	} else {
-		console.log("You must supply a file.");
-	}
-})();

@@ -1,0 +1,20 @@
+10 times def
+
+0 count def
+2 $times sub times set
+
+1 val def
+$val print
+
+1 prev def
+$prev print
+
+( 
+	$val $prev add result def
+	$result print
+
+	$val prev set
+	$result val set
+
+	1 $count add count set
+) ( $times $count != ) while

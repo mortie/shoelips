@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Shoelips</title>
+		<link rel="stylesheet" href="style.css">
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="leftbox">
+				<textarea id="input"></textarea>
+			</div>
+			<div id="rightbox">
+				<div class="input">
+					<button id="exec" onclick="interpret()">Run</button>
+					<select onchange="loadExample(this)">
+						<option value="0">Examples</option>
+						<option value="helloworld">Hello World</option>
+						<option value="calc">Calculator</option>
+						<option value="fibonacci">Fibonacci</option>
+					</select>
+				</div>
+				<div id="description">
+				</div>
+				<div class="output">
+					Output:
+					<textarea id="output"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+		<script src="shoelips.js"></script>
+	</body>
+</html>

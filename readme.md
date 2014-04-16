@@ -3,6 +3,8 @@ Shoelips
 
 Shoelips is a stack based postfix language. This means that every token which isn't an operator will get put on the stack. Operators thus pop the appropriate amount of values from the stack, then push the result(s).
 
+Find an online interpreter (here)[http://d.mort.coffee/webapp/shoelips]
+
 Blocks are rather odd in this language. Whenever you have a '(' in your code, everything until the matching ')'. That string can then be printed, concatinated, evaluated, or whatever you feel like doing with it.
 
 Operators
@@ -34,16 +36,27 @@ These are operations which control the flow of the program. They all involve "bl
 * **while**: Expects two blocks on the stack. The first block is the condition. If the last value on the stack produced by evaluating that block true boolean, execute the latter block. Repeat. If not, just keep on.
 * **if**: Very similar to while, except that it doesn't repeat.
 
+### I/O
+These are operations which lets Shoelips programs interact with the environment.
+
+* **readln**: Halts execution, prompting the user for a string. Puts said string on the stack afterwards.
+* **print**: Displays the first value on the stack to the user.
+* **readfile**: Reads the contents of a file into the stack as a string.
+* **writefile**: Expects the first value on the stack to be the string to write, the second value to be the name of the file to write to.
+
 ### Misc
 
 * **def**: Expects the first value on the stack to be a string, and the second to be any value. Defines a new variable with the name being the string in the first value on the stack, and the value being the second value on the stack. The variable is accessible only in its current expression and all expression it contains.
 * **set**: Much like def, except it's used to modify existing variables, not make new ones.
-* **print**: Print out the first value on the stack.
 * **concat**: Concatinate the two first values on the stack, then put the result on the stack.
-* **void**: Delete the first value on the stack without returning anything
+* **void**: Delete the first value on the stack without returning anything.
+* **tostring**: Take a number on the stack, and turn into a string.
+* **tonumber**: Take the numerical string on the stack, and turn it into a number.
 
 Examples
 --------
+
+The "examples" folder contains some examples of programs written in shoelips. This section is short examples of how to use various features.
 
 ### def
 

@@ -1,0 +1,34 @@
+readline tonumber val1 def
+readline tonumber val2 def
+readline operator def
+
+0 executed def
+
+(
+	$val2 $val1 add print
+	1 executed set
+) ( + $operator == ) if
+
+(
+	$val2 $val1 sub print
+	1 executed set
+) ( - $operator == ) if
+
+(
+	$val2 $val1 multi print
+	1 executed set
+) ( * $operator == ) if
+
+(
+	$val2 $val1 div print
+	1 executed set
+) ( / $operator == ) if
+
+(
+	$val2 $val1 mod print
+	1 executed set
+) ( % $operator == ) if
+
+(
+	$operator ( unknown operator: ) concat print
+) ( 0 $executed == ) if
