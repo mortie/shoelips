@@ -3,9 +3,11 @@ Shoelips
 
 Shoelips is a stack based postfix language. This means that every token which isn't an operator will get put on the stack. Operators thus pop the appropriate amount of values from the stack, then push the result(s).
 
-Find an online interpreter (here)[http://d.mort.coffee/webapp/shoelips]
+Find an online interpreter [here](http://d.mort.coffee/webapp/shoelips).
 
 Blocks are rather odd in this language. Whenever you have a '(' in your code, everything until the matching ')'. That string can then be printed, concatinated, evaluated, or whatever you feel like doing with it.
+
+I've written an example implementation of shoelips in javascript. The web version of it is in the web/ folder, the node.js folder is in nodejs/.
 
 Operators
 ---------
@@ -56,7 +58,7 @@ These are operations which lets Shoelips programs interact with the environment.
 Examples
 --------
 
-The "examples" folder contains some examples of programs written in shoelips. This section is short examples of how to use various features.
+The examples/ folder contains some examples of programs written in shoelips. This section is short examples of how to use various features.
 
 ### def
 
