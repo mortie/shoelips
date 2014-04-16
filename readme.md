@@ -5,7 +5,7 @@ Shoelips is a stack based postfix language. This means that every token which is
 
 Find an online interpreter [here](http://d.mortie.org/webapp/shoelips).
 
-Blocks are rather odd in this language. Whenever you have a '(' in your code, everything until the matching ')'. That string can then be printed, concatinated, evaluated, or whatever you feel like doing with it.
+Blocks are rather unusual in this language. Whenever you have a '(' in your code, everything until the matching ')'. That string can then be printed, concatinated, evaluated, or whatever you feel like doing with it.
 
 I've written an example implementation of shoelips in javascript. The web version of it is in the web/ folder, the node.js folder is in nodejs/.
 
