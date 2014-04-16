@@ -14,6 +14,9 @@ html, body {
 	position: relative;
 	top: calc(50% - 5px);
 	transform: translateY(-50%);
+		-webkit-transform: translateY(-50%);
+		-o-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
 }
 
 #container #rightbox,
