@@ -3,7 +3,7 @@ Shoelips
 
 Shoelips is a stack based postfix language. This means that every token which isn't an operator will get put on the stack. Operators thus pop the appropriate amount of values from the stack, then push the result(s).
 
-Find an online interpreter [here](http://d.mortie.org/webapp/shoelips).
+Find an online interpreter [here](http://d.mort.coffee/app/shoelips).
 
 Blocks are rather unusual in this language. Whenever you have a '(' in your code, everything until the matching ')'. That string can then be printed, concatinated, evaluated, or whatever you feel like doing with it.
 
